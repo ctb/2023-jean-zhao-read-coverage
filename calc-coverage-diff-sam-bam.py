@@ -4,6 +4,8 @@ TODO:
 * verify start and end / do we have an off-by-one error?
 * verify pileup start and end too
 * think about how to speed up...
+* can probably do with a generic 'cov' output, too.
+* check that both BAMs have the same reference name...
 """
 import sys
 import argparse
