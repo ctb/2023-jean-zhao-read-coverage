@@ -38,19 +38,19 @@ def main():
             print('...', n)
 
         chr = read.reference_name
-        start = read.reference_start
+        start = read.reference_start + 1
         end = read.reference_end
 
         # for each position in query read, get coverage
         sum_cov = []
-        for i in range(start, end + 1):
-#            print('XXX', chr, i, start, end + 1)
+        #print('XXX', chr, start, end)
+        for i in range(start, end):
             # is it in location cache?
             depth = location_cache.get(i)
 
             # nope, calculate and save.
             if depth is None:
-                pup = all_bam.pileup(chr, i, i+1)
+                pup = all_bam.pileup(chr, i, i+1, flag_filter=0)
                 #pup = list(pup)
 
                 # get set of unique reads (by name) that map to this position
@@ -62,17 +62,15 @@ def main():
 #                              pup_read.alignment.query_name,
 #                              pup_read.query_position,
 #                              pup_read.alignment.query_sequence[pup_read.query_position])
-#                print('YYY', len(reads))
 
-                # depth is number of distinct reads that cover this
+                # depth is number of distinct reads that cover this location
                 depth = len(reads)
                 location_cache[i] = depth
 
             sum_cov.append(depth)
 
-#        print(sum_cov)
+        #print(sum_cov)
         w.writerow([read.qname, f"{sum(sum_cov) / len(sum_cov):.2f}"])
-#        break
 
     outfp.close()
 

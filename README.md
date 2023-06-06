@@ -23,3 +23,7 @@ First create a .depth file:
 samtools depth ERR257715.x.GCF_003352045.1.bam > ERR257715.x.GCF_003352045.1.bam.depth
 ```
 
+then run:
+```
+./calc-coverage-diff-2.py ERR257715.x.GCF_003352045.1.bam.depth ERR257715.x.GCF_003352045.1.diff.reads.x.genome.bam -o xxx2.csv
+```

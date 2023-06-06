@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 """
+TODO:
+* worry about partial alignments?
 """
 import sys
 import argparse
@@ -48,9 +50,11 @@ def main():
             print('...', n)
 
         chr = read.reference_name
-        start = read.reference_start
+        start = read.reference_start + 1 # @CTB
         end = read.reference_end
         assert start < end
+
+        #print('XXX', chr, start, end)
 
         # for each position in query read, get coverage
         sum_cov = []
@@ -59,6 +63,7 @@ def main():
             depth = d2.get(pos, 0)
             sum_cov.append(depth)
 
+#        print(len(sum_cov), read.query_length, sum_cov)
         w.writerow([read.qname, f"{sum(sum_cov) / len(sum_cov):.2f}"])
 
     outfp.close()
