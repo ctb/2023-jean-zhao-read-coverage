@@ -15,3 +15,11 @@ whose coverage in the first BAM you're interested in.
 
 Both BAMs should be mapped to the same reference and both BAMs should
 be indexed and sorted (`samtools sort`, `samtools index`).
+
+## Try 2 - use output of `samtools depth`
+
+First create a .depth file:
+```
+samtools depth ERR257715.x.GCF_003352045.1.bam > ERR257715.x.GCF_003352045.1.bam.depth
+```
+

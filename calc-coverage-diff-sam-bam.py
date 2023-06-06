@@ -34,10 +34,8 @@ def main():
     # iterate over query reads
     fup = query_bam.fetch()
     for n, read in enumerate(fup):
-        if n % 10 == 0:
+        if n % 100 == 0:
             print('...', n)
-        if n > 100:
-            break
 
         chr = read.reference_name
         start = read.reference_start
@@ -46,19 +44,37 @@ def main():
         # for each position in query read, get coverage
         sum_cov = []
         for i in range(start, end + 1):
+#            print('XXX', chr, i, start, end + 1)
             # is it in location cache?
-            cov = location_cache.get(i)
+            depth = location_cache.get(i)
 
             # nope, calculate and save.
-            if cov is None:
+            if depth is None:
                 pup = all_bam.pileup(chr, i, i+1)
-                cov = len(list(pup))
+                #pup = list(pup)
 
-                location_cache[i] = cov
+                # get set of unique reads (by name) that map to this position
+                reads = set()
+                for pupcol in pup:
+                    for pup_read in pupcol.pileups:
+                        reads.add(pup_read.alignment.query_name)
+#                        print(pup_read.is_del, pup_read.is_refskip,
+#                              pup_read.alignment.query_name,
+#                              pup_read.query_position,
+#                              pup_read.alignment.query_sequence[pup_read.query_position])
+#                print('YYY', len(reads))
 
-            sum_cov.append(cov)
+                # depth is number of distinct reads that cover this
+                depth = len(reads)
+                location_cache[i] = depth
 
+            sum_cov.append(depth)
+
+#        print(sum_cov)
         w.writerow([read.qname, f"{sum(sum_cov) / len(sum_cov):.2f}"])
+#        break
+
+    outfp.close()
 
 
 if __name__ == '__main__':
