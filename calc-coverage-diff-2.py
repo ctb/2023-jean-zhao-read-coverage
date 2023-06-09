@@ -60,8 +60,12 @@ def main():
         sum_cov = []
         for pos in range(start, end + 1):
             d2 = coverages.get(chr)
-            depth = d2.get(pos, 0)
-            sum_cov.append(depth)
+            if d2:
+                depth = d2.get(pos, 0)
+                sum_cov.append(depth)
+
+        if not sum_cov:
+            sum_cov = [0]
 
 #        print(len(sum_cov), read.query_length, sum_cov)
         w.writerow([read.qname, f"{sum(sum_cov) / len(sum_cov):.2f}"])
