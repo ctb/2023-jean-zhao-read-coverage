@@ -41,7 +41,7 @@ def main():
 
     outfp = open(args.output, 'w', newline='')
     w = csv.writer(outfp)
-    w.writerow(['read_name','mapping_cov'])
+    w.writerow(['read_name','mapping_cov', 'cigar', 'mapping_quality'])
 
     # iterate over query reads
     fup = query_bam.fetch()
@@ -79,7 +79,8 @@ def main():
             sum_cov = [0]
 
 #        print(len(sum_cov), read.query_length, sum_cov)
-        w.writerow([read.qname, f"{sum(sum_cov) / len(sum_cov):.2f}"])
+        w.writerow([read.qname, f"{sum(sum_cov) / len(sum_cov):.2f}",
+                    read.cigarstring, read.mapping_quality])
 
     outfp.close()
 
