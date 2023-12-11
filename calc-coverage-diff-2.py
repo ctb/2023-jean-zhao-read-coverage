@@ -42,6 +42,7 @@ def main():
     outfp = open(args.output, 'w', newline='')
     w = csv.writer(outfp)
     w.writerow(['read_name','mapping_cov', 'cigar', 'mapping_quality',
+                'read_length', 'read_align_f',
                 'is_proper_pair', 'is_primary_alignment'])
 
     # iterate over query reads
@@ -79,9 +80,22 @@ def main():
         if not sum_cov:
             sum_cov = [0]
 
+        # calculate fraction aligned/mapped, fraction soft clipped
+        n_match = 0
+        n_softclip = 0
+        for k, v in read.cigartuples:
+            if k == 0:          # M
+                n_match += v
+            elif k == 4:
+                n_softclip += v
+            else:
+                #print(f"unhandled cigarstring operation: {(k, v)}")
+                pass
+
 #        print(len(sum_cov), read.query_length, sum_cov)
         w.writerow([read.qname, f"{sum(sum_cov) / len(sum_cov):.2f}",
                     read.cigarstring, read.mapping_quality,
+                    read.query_length, n_match / read.query_length,
                     '1' if read.is_proper_pair else '0',
                     '0' if read.is_secondary else '1'])
 
