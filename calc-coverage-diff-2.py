@@ -41,7 +41,8 @@ def main():
 
     outfp = open(args.output, 'w', newline='')
     w = csv.writer(outfp)
-    w.writerow(['read_name','mapping_cov', 'cigar', 'mapping_quality'])
+    w.writerow(['read_name','mapping_cov', 'cigar', 'mapping_quality',
+                'is_proper_pair', 'is_primary_alignment'])
 
     # iterate over query reads
     fup = query_bam.fetch()
@@ -80,7 +81,9 @@ def main():
 
 #        print(len(sum_cov), read.query_length, sum_cov)
         w.writerow([read.qname, f"{sum(sum_cov) / len(sum_cov):.2f}",
-                    read.cigarstring, read.mapping_quality])
+                    read.cigarstring, read.mapping_quality,
+                    '1' if read.is_proper_pair else '0',
+                    '0' if read.is_secondary else '1'])
 
     outfp.close()
 

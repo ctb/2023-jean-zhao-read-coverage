@@ -76,20 +76,31 @@ def main():
         'all_1_cov',
         'all_1_cigar',
         'all_1_mapq',
+        'all_1_is_pair',
+        'all_1_is_primary',
         'all_name2',
         'all_2_cov',
         'all_2_cigar',
         'all_2_mapq',
+        'all_2_is_pair',
+        'all_2_is_primary',
         'diff_1_present',
         'diff_1_cov',
         'diff_1_cigar',
         'diff_1_mapq',
+        'diff_1_is_pair',
+        'diff_1_is_primary',
         'diff_2_present',
         'diff_2_cov',
         'diff_2_cigar',
-        'diff_2_mapq'
+        'diff_2_mapq',
+        'diff_2_is_pair',
+        'diff_2_is_primary',
         ]
     w.writerow(header_row)
+
+    transfer_cols = ('mapping_cov', 'cigar', 'mapping_quality',
+                     'is_proper_pair', 'is_primary_alignment')
 
     # make a gigantic munge of information!!
     for name in uniq_names:
@@ -106,14 +117,14 @@ def main():
    
         output_row = []
         output_row.append(name_1)
-        for k in 'mapping_cov', 'cigar', 'mapping_quality':
+        for k in transfer_cols:
             if name_1 in all_d:
                 output_row.append(all_d[name_1][k])
             else:
                 output_row.append('')
 
         output_row.append(name_2)
-        for k in 'mapping_cov', 'cigar', 'mapping_quality':
+        for k in transfer_cols:
             if name_2 in all_d:
                 output_row.append(all_d[name_2][k])
             else:
@@ -124,7 +135,7 @@ def main():
         else:
             output_row.append('diff_1_ABSENT')
 
-        for k in 'mapping_cov', 'cigar', 'mapping_quality':
+        for k in transfer_cols:
             if name_1 in diff_d:
                 output_row.append(diff_d[name_1][k])
             else:
@@ -135,7 +146,7 @@ def main():
         else:
             output_row.append('diff_2_ABSENT')
 
-        for k in 'mapping_cov', 'cigar', 'mapping_quality':
+        for k in transfer_cols:
             if name_2 in diff_d:
                 output_row.append(diff_d[name_2][k])
             else:
@@ -143,7 +154,7 @@ def main():
 
         w.writerow(output_row)
 
-        assert len(output_row) == len(header_row)
+        assert len(output_row) == len(header_row), (len(output_row), len(header_row))
 
 
 if __name__ == '__main__':
