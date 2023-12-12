@@ -2,6 +2,9 @@
 """
 TODO:
 * worry about partial alignments?
+
+note pysam docs:
+https://pysam.readthedocs.io/en/latest/api.html#pysam.AlignedSegment.qname
 """
 import sys
 import argparse
