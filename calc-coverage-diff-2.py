@@ -46,7 +46,8 @@ def main():
     w = csv.writer(outfp)
     w.writerow(['read_name','mapping_cov', 'cigar', 'mapping_quality',
                 'read_length', 'read_align_f',
-                'is_proper_pair', 'is_primary_alignment'])
+                'is_proper_pair', 'is_primary_alignment',
+                'refcontig', 'ref_start', 'ref_end'])
 
     # iterate over query reads
     fup = query_bam.fetch()
@@ -100,7 +101,8 @@ def main():
                     read.cigarstring, read.mapping_quality,
                     read.query_length, n_match / read.query_length,
                     '1' if read.is_proper_pair else '0',
-                    '0' if read.is_secondary else '1'])
+                    '0' if read.is_secondary else '1',
+                    chr, start, end])
 
     outfp.close()
 

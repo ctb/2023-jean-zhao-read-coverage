@@ -80,6 +80,9 @@ def main():
         'all_1_align_f',
         'all_1_is_pair',
         'all_1_is_primary',
+        'all_1_ref_contig',
+        'all_1_ref_start',
+        'all_1_ref_end',
         'all_name2',
         'all_2_cov',
         'all_2_cigar',
@@ -88,6 +91,9 @@ def main():
         'all_2_align_f',
         'all_2_is_pair',
         'all_2_is_primary',
+        'all_2_ref_contig',
+        'all_2_ref_start',
+        'all_2_ref_end',
         'diff_1_present',
         'diff_1_cov',
         'diff_1_cigar',
@@ -96,20 +102,27 @@ def main():
         'diff_1_align_f',
         'diff_1_is_pair',
         'diff_1_is_primary',
+        'diff_1_ref_contig',
+        'diff_1_ref_start',
+        'diff_1_ref_end',
         'diff_2_present',
         'diff_2_cov',
         'diff_2_cigar',
         'diff_2_mapq',
-        'diff_1_readlen',
-        'diff_1_align_f',
+        'diff_2_readlen',
+        'diff_2_align_f',
         'diff_2_is_pair',
         'diff_2_is_primary',
+        'diff_2_ref_contig',
+        'diff_2_ref_start',
+        'diff_2_ref_end',
         ]
     w.writerow(header_row)
 
     transfer_cols = ('mapping_cov', 'cigar', 'mapping_quality',
                      'read_length', 'read_align_f',
-                     'is_proper_pair', 'is_primary_alignment')
+                     'is_proper_pair', 'is_primary_alignment',
+                     'refcontig', 'ref_start', 'ref_end')
 
     # make a gigantic munge of information!!
     for name in uniq_names:
