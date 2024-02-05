@@ -69,7 +69,8 @@ def main():
             elif read.is_read2:
                 read.qname += '/2'
             else:
-                raise ValueError(f"read {read.qname} is paired but not read 1 or read 2")
+                print(f"read {read.qname} is paired but not read 1 or read 2")
+                continue
         elif not ('/1' in read.qname or '/2' in read.qname):
             read.qname += '/1'
 
